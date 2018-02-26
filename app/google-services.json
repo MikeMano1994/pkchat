@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "145699764557",
+    "firebase_url": "https://pk-chat-ac662.firebaseio.com",
+    "project_id": "pk-chat-ac662",
+    "storage_bucket": "pk-chat-ac662.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:145699764557:android:c1cba48e2a4187fc",
+        "android_client_info": {
+          "package_name": "com.pshkrh.pkchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "145699764557-8ccfpqtjj09hr6jhconncgep073spdqt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pshkrh.pkchat",
+            "certificate_hash": "8fa73e27d2cf612c925f3e5c0fb916351ad6e2b2"
+          }
+        },
+        {
+          "client_id": "145699764557-rs38rn0qug92cjdcvtv23finienotq7p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkKUqFPUlmujKXjsE_6joxUTWJgnLDXpU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "145699764557-rs38rn0qug92cjdcvtv23finienotq7p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
