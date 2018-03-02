@@ -226,9 +226,12 @@ public class MainActivity extends AppCompatActivity {
         switch(item.getItemId()){
             case R.id.sign_out_menu:
                 AuthUI.getInstance().signOut(this);
+                Intent intent = new Intent(MainActivity.this, SelectActivity.class);
+                startActivity(intent);
+                finish();
                 return true;
             case R.id.change_group_menu:
-                Intent intent = new Intent(MainActivity.this, SelectActivity.class);
+                intent = new Intent(MainActivity.this, SelectActivity.class);
                 startActivity(intent);
                 finish();
             default:
