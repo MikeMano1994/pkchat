@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     tools:context="com.pshkrh.pkchat.SplashActivity">
 
-    <TextView
-        android:id="@+id/textView3"
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:text="@string/pkchat"
-        android:textSize="50sp"
-        android:fontFamily="sans-serif-condensed"/>
+        app:srcCompat="@drawable/pkchat" />
+
 </RelativeLayout>
