@@ -1,7 +1,6 @@
 package com.pshkrh.pkchat;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,9 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.os.Handler;
 
 import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -25,21 +24,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.pshkrh.pkchat.R;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
-public class SelectActivity extends AppCompatActivity {
+public class SplashActivity extends AppCompatActivity {
 
     private static final String TAG = "SelectActivity";
 
     public static final String ANONYMOUS = "Anonymous";
     public static final int DEFAULT_MSG_LENGTH_LIMIT = 1000;
     public static final int RC_SIGN_IN = 1;
-    private static final int RC_PHOTO_PICKER =  2;
+    private static final int RC_PHOTO_PICKER = 2;
 
     private String mUsername;
 
@@ -58,75 +53,61 @@ public class SelectActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select);
+        setContentView(R.layout.activity_splash);
+        mFirebaseAuth = FirebaseAuth.getInstance();
 
-        //mFirebaseAuth = FirebaseAuth.getInstance();
-
-        // Initialize message ListView and its adapter
-        //final List<FriendlyMessage> friendlyMessages = new ArrayList<>();
-        //mMessageAdapter = new MessageAdapter(this, R.layout.item_message, friendlyMessages);
-        //mMessageListView.setAdapter(mMessageAdapter);
-
-        /*mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
             @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if(user!=null){
-                    //Signed in
-                    onSignedInInitialize(user.getDisplayName());
-                }
-                else{
-                    //Signed out
-                    onSignedOutCleanup();
-                    startActivityForResult(
-                            AuthUI.getInstance()
-                                    .createSignInIntentBuilder()
-                                    .setIsSmartLockEnabled(false)
-                                    .setAvailableProviders(Arrays.asList(
-                                            new AuthUI.IdpConfig.EmailBuilder().build(),
-                                            new AuthUI.IdpConfig.GoogleBuilder().build()))
-                                    .build(),
-                            RC_SIGN_IN);
-                }
+            public void run() {
+                mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+                    @Override
+                    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                        FirebaseUser user = firebaseAuth.getCurrentUser();
+                        if (user != null) {
+                            //Signed in
+                            onSignedInInitialize(user.getDisplayName());
+                            Intent intent = new Intent(SplashActivity.this, SelectActivity.class);
+                            intent.putExtra("Username", mUsername);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            //Signed out
+                            onSignedOutCleanup();
+                            startActivityForResult(
+                                    AuthUI.getInstance()
+                                            .createSignInIntentBuilder()
+                                            .setIsSmartLockEnabled(false)
+                                            .setAvailableProviders(Arrays.asList(
+                                                    new AuthUI.IdpConfig.EmailBuilder().build(),
+                                                    new AuthUI.IdpConfig.GoogleBuilder().build()))
+                                            .build(),
+                                    RC_SIGN_IN);
+                        }
+                    }
+                };
+                mFirebaseAuth.addAuthStateListener(mAuthStateListener);
             }
-        };*/
-
-        Button chatBtn = (Button) findViewById(R.id.button2);
-        final EditText edit = (EditText)findViewById(R.id.editText);
-
-        chatBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final String txt = edit.getText().toString();
-                if(txt.matches("")){
-                    Toast.makeText(SelectActivity.this, "Please enter a Group Code", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    Intent intent = new Intent(SelectActivity.this, MainActivity.class);
-                    intent.putExtra("groupCode",txt);
-                    intent.putExtra("Username", mUsername);
-                    startActivity(intent);
-                    finish();
-                }
-            }
-        });
+        },1500);
     }
 
-    /*@Override
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == RC_SIGN_IN){
-            if(resultCode == RESULT_OK){
+        if (requestCode == RC_SIGN_IN) {
+            if (resultCode == RESULT_OK) {
                 Toast.makeText(this, "Signed In Successfully", Toast.LENGTH_SHORT).show();
-            }
-            else if(resultCode == RESULT_CANCELED){
+                Intent intent = new Intent(SplashActivity.this, SelectActivity.class);
+                intent.putExtra("Username", mUsername);
+                startActivity(intent);
+                finish();
+            } else if (resultCode == RESULT_CANCELED) {
                 //Toast.makeText(this, "Sign In Cancelled", Toast.LENGTH_SHORT).show();
                 finish();
             }
         }
-    }*/
-
-    /*@Override
+    }
+    @Override
     protected void onPause() {
         super.onPause();
         mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
@@ -137,7 +118,7 @@ public class SelectActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+        //mFirebaseAuth.addAuthStateListener(mAuthStateListener);
     }
 
     private void onSignedInInitialize(String username){
@@ -177,7 +158,7 @@ public class SelectActivity extends AppCompatActivity {
             mMessagesDatabaseReference.removeEventListener(mChildEventListener);
             mChildEventListener = null;
         }
-    }*/
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -191,9 +172,6 @@ public class SelectActivity extends AppCompatActivity {
         switch(item.getItemId()){
             case R.id.sign_out_menu:
                 AuthUI.getInstance().signOut(this);
-                Intent intent = new Intent(SelectActivity.this, SignOutActivity.class);
-                startActivity(intent);
-                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

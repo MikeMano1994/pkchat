@@ -9,4 +9,6 @@
     <string name="start_chat">Start Chatting</string>
     <string name="change_group">Change Group</string>
     <string name="case_sensitive">Note: The group code is case-sensitive.</string>
+    <string name="pkchat">PKChat</string>
+    <string name="signout">Signing Out...</string>
 </resources>
