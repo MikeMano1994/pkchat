@@ -78,7 +78,7 @@ public class SplashActivity extends AppCompatActivity {
                                     AuthUI.getInstance()
                                             .createSignInIntentBuilder()
                                             .setIsSmartLockEnabled(false)
-                                            .setLogo(R.drawable.pkchat2)
+                                            .setLogo(R.drawable.pkchat)
                                             .setAvailableProviders(Arrays.asList(
                                                     new AuthUI.IdpConfig.EmailBuilder().build(),
                                                     new AuthUI.IdpConfig.GoogleBuilder().build()))
