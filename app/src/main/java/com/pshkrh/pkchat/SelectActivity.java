@@ -59,7 +59,7 @@ public class SelectActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select);
-
+        mUsername = getIntent().getStringExtra("Username");
         //mFirebaseAuth = FirebaseAuth.getInstance();
 
         // Initialize message ListView and its adapter

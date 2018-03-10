@@ -23,6 +23,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -89,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mUsername = getIntent().getStringExtra("Username");
+
+        Log.d("pkchat","username = " + mUsername);
 
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -159,31 +162,6 @@ public class MainActivity extends AppCompatActivity {
                 mMessageEditText.setText("");
             }
         });
-
-
-        /*mAuthStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if(user!=null){
-                    //Signed in
-                    onSignedInInitialize(user.getDisplayName());
-                }
-                else{
-                    //Signed out
-                    onSignedOutCleanup();
-                    startActivityForResult(
-                            AuthUI.getInstance()
-                                    .createSignInIntentBuilder()
-                                    .setIsSmartLockEnabled(false)
-                                    .setAvailableProviders(Arrays.asList(
-                                            new AuthUI.IdpConfig.EmailBuilder().build(),
-                                            new AuthUI.IdpConfig.GoogleBuilder().build()))
-                                    .build(),
-                            RC_SIGN_IN);
-                }
-            }
-        };*/
     }
 
     @Override
@@ -239,20 +217,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /*@Override
-    protected void onPause() {
-        super.onPause();
-        mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
-        detachDatabaseReadListener();
-        mMessageAdapter.clear();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
-    }*/
-
     private void onSignedInInitialize(String username){
         mUsername = username;
         attachDatabaseReadListener();
@@ -271,6 +235,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     FriendlyMessage friendlyMessage = dataSnapshot.getValue(FriendlyMessage.class);
                     mMessageAdapter.add(friendlyMessage);
+                    mMessageListView.setSelection(mMessageListView.getAdapter().getCount()-1);
                 }
                 @Override
                 public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
